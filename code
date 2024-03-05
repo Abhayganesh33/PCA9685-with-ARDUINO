@@ -1,1 +1,36 @@
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
 
+// Create an instance of the Adafruit PWM Servo Driver
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
+// Define the minimum and maximum pulse width for your servo motors
+#define SERVO_MIN  150  // Adjust this value for your servo (usually between 150 and 600)
+#define SERVO_MAX  600  // Adjust this value for your servo (usually between 150 and 600)
+
+Void setup() {
+  Pwm.begin();
+  Pwm.setPWMFreq(60);  // Set the PWM frequency (you can adjust this if needed)
+}
+
+Void loop() {
+  // Control Servo 1
+  setServoPosition(0, 0); // Set servo 1 to its minimum position
+  delay(1000);           // Wait for 1 second
+  setServoPosition(0, 180); // Set servo 1 to its maximum position
+  delay(1000);           // Wait for 1 second
+  
+  // Control Servo 2
+  setServoPosition(1, 90); // Set servo 2 to its middle position
+  delay(1000);           // Wait for 1 second
+  
+  // Control Servo 3
+  setServoPosition(2, 45); // Set servo 3 to a custom position
+  delay(1000);           // Wait for 1 second
+}
+
+// Function to set servo position by specifying servo number (0 to 15) and angle (0 to 180)
+Void setServoPosition(uint8_t servoNum, uint16_t angle) {
+  Uint16_t pulseWidth = map(angle, 0, 180, SERVO_MIN, SERVO_MAX);
+  Pwm.setPWM(servoNum, 0, pulseWidth);
+}
